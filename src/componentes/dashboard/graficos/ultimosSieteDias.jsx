@@ -72,30 +72,40 @@ const UltimosSieteDias = () => {
   }, [actividadesRegistradas]);
 
   return (
-    <Bar
-      options={{
-        responsive: true,
-        plugins: {
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: " ",
-          },
-        },
-      }}
-      data={{
-        labels: [...resumen.map((item) => item.fecha)],
-        datasets: [
-          {
-            label: "Minutos",
-            data: [...resumen.map((item) => item.minutosTotales)],
-            backgroundColor: "rgba(255, 99, 132, 0.5)",
-          },
-        ],
-      }}
-    />
+    <div className="row">
+      <div className="card p-3 mb-3">
+        <h5>Últimos 7 días</h5>
+        <div
+          className="bg-light d-flex justify-content-center"
+          style={{ height: "400px" }}
+        >
+          <Bar
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: "top",
+                },
+                title: {
+                  display: true,
+                  text: " ",
+                },
+              },
+            }}
+            data={{
+              labels: [...resumen.map((item) => item.fecha)],
+              datasets: [
+                {
+                  label: "Minutos",
+                  data: [...resumen.map((item) => item.minutosTotales)],
+                  backgroundColor: "rgb(193, 47, 3)",
+                },
+              ],
+            }}
+          />{" "}
+        </div>
+      </div>
+    </div>
   );
 };
 

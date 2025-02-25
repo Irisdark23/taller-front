@@ -5,6 +5,7 @@ import VerRegistros from "./dashboard/verRegistros";
 import UltimosSieteDias from "./dashboard/graficos/ultimosSieteDias";
 import CantidadSesiones from "./dashboard/graficos/cantidadSesiones";
 import { useSelector } from "react-redux";
+import Logro from "./dashboard/logro";
 
 const Dashboard = () => {
   const actividadesRegistradas = useSelector(
@@ -30,7 +31,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div id="dashboard">
+    <div>
       <h2 className="text-center">Dashboard</h2>
       <div className="row">
         <Tarjeta
@@ -47,32 +48,11 @@ const Dashboard = () => {
       <AgregarRegistro />
       <VerRegistros />
 
-      <div className="row">
-        <div className="card p-3 mb-3 d-flex">
-          <h5>Sesiones por Actividad</h5>
-          <div
-            className="bg-light d-flex justify-content-center"
-            style={{ height: "400px" }}
-          >
-            <CantidadSesiones />
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="card p-3 mb-3">
-          <h5>Últimos 7 días</h5>
-          <div
-            className="bg-light d-flex justify-content-center"
-            style={{ height: "400px" }}
-          >
-            <UltimosSieteDias />
-          </div>
-        </div>
-      </div>
+      <CantidadSesiones />
 
-      <div className="card p-3 text-center">
-        <h5>¡Bien hecho!</h5>
-      </div>
+      <UltimosSieteDias />
+
+      <Logro />
     </div>
   );
 };

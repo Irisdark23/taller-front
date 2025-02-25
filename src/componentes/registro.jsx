@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useRef } from "react";
 import Input from "../shared/input";
 import Select from "../shared/select";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import Button from "../shared/button";
+import { guardarSession } from "../features/authSlice";
+import { useDispatch } from "react-redux";
 
 const Registro = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [pais, setPais] = useState("");
@@ -50,7 +53,7 @@ const Registro = () => {
             id: datos.id,
           };
           localStorage.setItem("user", JSON.stringify(user));
-          // dispatch(guardarSession(user));
+          dispatch(guardarSession(user));
           navigate("/dashboard");
         } else {
           // Error
@@ -60,6 +63,8 @@ const Registro = () => {
         setCargando(false);
       });
   };
+
+  const disabled = usuario == "" || password == "" || pais == "";
 
   return (
     <div className="container mt-5">
@@ -81,7 +86,7 @@ const Registro = () => {
             <Select
               label="País"
               value={pais}
-              options={paises}
+              options={[{ id: "", nombre: "<< Seleccione >>" }, ...paises]}
               changeValue={(val) => setPais(val)}
             />
             <Button
@@ -89,6 +94,7 @@ const Registro = () => {
               onClick={hacerRegistro}
               color="success"
               cargando={cargando}
+              disabled={disabled}
             />
           </form>
         </div>

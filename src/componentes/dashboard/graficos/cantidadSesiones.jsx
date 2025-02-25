@@ -42,39 +42,49 @@ const CantidadSesiones = () => {
   }, [actividadesRegistradas]);
 
   return (
-    <Pie
-      options={{
-        responsive: true,
-      }}
-      data={{
-        labels: resumen.map((item) => item.actividad), // Fechas como etiquetas
-        datasets: [
-          {
-            label: "Sesiones", // El label puede ser el total de minutos
-            data: resumen.map((item) => item.sesion), // Los minutos totales por día
-            backgroundColor: [
-              "rgba(54, 46, 170, 0.5)", // Puedes agregar más colores si tienes más segmentos
-              "rgba(255, 99, 132, 0.5)",
-              "rgba(75, 192, 192, 0.5)",
-              "rgba(153, 102, 255, 0.5)",
-              "rgba(255, 159, 64, 0.5)",
-              "rgba(255, 205, 86, 0.5)",
-              "rgba(201, 203, 207, 0.5)",
-            ],
-            borderColor: [
-              "rgba(54, 46, 170, 1)",
-              "rgba(255, 99, 132, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
-              "rgba(255, 205, 86, 1)",
-              "rgba(201, 203, 207, 1)",
-            ],
-            borderWidth: 1,
-          },
-        ],
-      }}
-    />
+    <div className="row">
+      <div className="card p-3 mb-3 d-flex">
+        <h5>Sesiones por Actividad</h5>
+        <div
+          className="bg-light d-flex justify-content-center"
+          style={{ height: "400px" }}
+        >
+          <Pie
+            options={{
+              responsive: true,
+            }}
+            data={{
+              labels: resumen.map((item) => item.actividad), // Fechas como etiquetas
+              datasets: [
+                {
+                  label: "Sesiones", // El label puede ser el total de minutos
+                  data: resumen.map((item) => item.sesion), // Los minutos totales por día
+                  backgroundColor: [
+                    "rgba(54, 46, 170, 0.5)", // Puedes agregar más colores si tienes más segmentos
+                    "rgba(255, 99, 132, 0.5)",
+                    "rgba(75, 192, 192, 0.5)",
+                    "rgba(153, 102, 255, 0.5)",
+                    "rgba(255, 159, 64, 0.5)",
+                    "rgba(255, 205, 86, 0.5)",
+                    "rgba(201, 203, 207, 0.5)",
+                  ],
+                  borderColor: [
+                    "rgba(54, 46, 170, 1)",
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)",
+                    "rgba(255, 205, 86, 1)",
+                    "rgba(201, 203, 207, 1)",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 

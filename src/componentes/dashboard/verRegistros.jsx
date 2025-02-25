@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "../../shared/select";
 import useCargarActividadesGuardadas from "../../hooks/useCargarActividadesGuardadas";
+import Button from "../../shared/button";
 
 function pasoUnaSemana(fechaString) {
   const fechaDada = new Date(fechaString);
@@ -13,10 +14,10 @@ function pasoUnaSemana(fechaString) {
 
 function pasoUnMes(fechaString) {
   const fechaDada = new Date(fechaString);
-  let fechaLimite = new Date(fechaDada);
-  fechaLimite.setMonth(fechaDada.getMonth() + 1); // Sumar 1 mes
+  const fechaLimite = new Date(fechaDada);
+  fechaLimite.setDate(fechaDada.getDate() + 30); // Sumar 1 mes
 
-  return new Date() < fechaLimite; // Si la fecha actual es posterior
+  return new Date() > fechaLimite; // Si la fecha actual es posterior
 }
 
 const VerRegistros = () => {
@@ -73,7 +74,7 @@ const VerRegistros = () => {
     // Estas son las de la semana
     if (filtro == 2)
       setActividadesFiltradas([
-        ...actividadesFiltradas.filter(
+        ...actividadesGuardadas.filter(
           (actividad) => !pasoUnaSemana(actividad.fecha)
         ),
       ]);
@@ -81,8 +82,8 @@ const VerRegistros = () => {
     // Estas son las del mes
     if (filtro == 3)
       setActividadesFiltradas([
-        ...actividadesFiltradas.filter((actividad) =>
-          pasoUnMes(actividad.fecha)
+        ...actividadesGuardadas.filter(
+          (actividad) => !pasoUnMes(actividad.fecha)
         ),
       ]);
   }, [filtro, actividadesGuardadas]);
@@ -104,7 +105,7 @@ const VerRegistros = () => {
             id: 2,
           },
           {
-            name: "Última mes",
+            name: "Último mes",
             id: 3,
           },
         ]}
@@ -133,9 +134,9 @@ const VerRegistros = () => {
                   <small className="text-muted">Día: {actividad.fecha}</small>
                 </div>
                 <div>
-                  <input
-                    className="btn btn-sm btn-danger"
-                    value="Eliminar"
+                  <Button
+                    color="danger"
+                    texto="Eliminar"
                     onClick={() => eliminarActividad(actividad.id)}
                   />
                 </div>

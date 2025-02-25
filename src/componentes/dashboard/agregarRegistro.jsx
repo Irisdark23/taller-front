@@ -7,9 +7,11 @@ import { toast } from "react-toastify";
 import { guardarActividades } from "../../features/dashboardSlice";
 import Button from "../../shared/button";
 import useCargarActividadesGuardadas from "../../hooks/useCargarActividadesGuardadas";
+import { eliminarSession } from "../../features/authSlice";
 
 const AgregarRegistro = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [actividad, setActividad] = useState("");
   const [tiempo, setTiempo] = useState(30);
@@ -34,6 +36,11 @@ const AgregarRegistro = () => {
       .then((datos) => {
         if (datos.codigo == 200) {
           dispatch(guardarActividades(datos.actividades));
+        }
+        if (datos.codigo == 401) {
+          localStorage.removeItem("user");
+          dispatch(eliminarSession());
+          navigate("/");
         }
         setCargando(false);
       });
@@ -75,58 +82,38 @@ const AgregarRegistro = () => {
   const isDisabled = actividad == "" || tiempo <= 0 || !fecha;
 
   return (
-    <div className="accordion mb-3" id="registroAccordion">
-      <div className="accordion-item">
-        <h2 className="accordion-header" id="headingRegistro">
-          <button
-            className="accordion-button"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseRegistro"
-            aria-expanded="true"
-            aria-controls="collapseRegistro"
-          >
-            <h4>Agregar Registro</h4>
-          </button>
-        </h2>
-        <div
-          id="collapseRegistro"
-          className="accordion-collapse collapse show"
-          aria-labelledby="headingRegistro"
-          data-bs-parent="#registroAccordion"
-        >
-          <div className="accordion-body">
-            <form>
-              <Select
-                label="Actividad"
-                value={actividad}
-                options={actividades}
-                changeValue={(val) => setActividad(val)}
-              />
-              <Input
-                label="Tiempo (min)"
-                type="number"
-                value={tiempo}
-                changeValue={(val) => setTiempo(val)}
-              />
-              <Input
-                label="Fecha"
-                type="date"
-                value={fecha}
-                changeValue={(val) => setFecha(val)}
-              />
+    <div className="card p-3 mb-3">
+      <h4>Agregar Registros</h4>
+      <form>
+        <Select
+          label="Actividad"
+          value={actividad}
+          options={[{ id: "", nombre: "<< Seleccione >>" }, ...actividades]}
+          changeValue={(val) => setActividad(val)}
+        />
+        <Input
+          label="Tiempo (min)"
+          type="number"
+          value={tiempo}
+          changeValue={(val) => setTiempo(val)}
+          min={0}
+        />
+        <Input
+          label="Fecha"
+          type="date"
+          value={fecha}
+          changeValue={(val) => setFecha(val)}
+          max={new Date().toISOString().split("T")[0]}
+        />
 
-              <Button
-                texto="Guardar"
-                onClick={hacerRegistroActividad}
-                disabled={isDisabled}
-                color="success"
-                cargando={cargando}
-              />
-            </form>
-          </div>
-        </div>
-      </div>
+        <Button
+          texto="Guardar"
+          onClick={hacerRegistroActividad}
+          disabled={isDisabled}
+          color="success"
+          cargando={cargando}
+        />
+      </form>
     </div>
   );
 };
