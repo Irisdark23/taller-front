@@ -4,6 +4,7 @@ import Input from "../shared/input";
 import Select from "../shared/select";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import Button from "../shared/button";
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -12,13 +13,15 @@ const Registro = () => {
   const [pais, setPais] = useState("");
 
   const [paises, setPaises] = useState([]);
+  const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
+    setCargando(true);
     fetch("https://movetrack.develotion.com/paises.php")
       .then((r) => r.json())
       .then((datos) => {
         setPaises(datos.paises);
-        // setCargando(false);
+        setCargando(false);
       });
   }, []);
 
@@ -28,7 +31,7 @@ const Registro = () => {
       password: password,
       idPais: pais,
     };
-
+    setCargando(true);
     fetch("https://movetrack.develotion.com/usuarios.php", {
       method: "POST", // Definir que es una solicitud POST
       headers: {
@@ -54,7 +57,7 @@ const Registro = () => {
           toast.error(datos.mensaje);
         }
 
-        // setCargando(false);
+        setCargando(false);
       });
   };
 
@@ -81,11 +84,11 @@ const Registro = () => {
               options={paises}
               changeValue={(val) => setPais(val)}
             />
-            <input
-              type="buttob"
-              className="btn btn-success w-100"
+            <Button
+              texto="Registrarse"
               onClick={hacerRegistro}
-              value="Registrarse"
+              color="success"
+              cargando={cargando}
             />
           </form>
         </div>
